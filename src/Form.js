@@ -43,11 +43,19 @@ class Form extends Component {
     validate = (values) => {
         const {name, email} = values;
         return {
-            name: !name
+            name: !name || !this.validateName(name)
                 ? true
                 : false
         }
     }
+
+    // To check for the presence of both first name and the last name
+     validateName = (name) => {
+    name = name
+      .trim()
+      .split(" ");
+    return name.length > 1;
+  }
 
     render() {
         return (
