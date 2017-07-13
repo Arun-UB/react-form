@@ -45,17 +45,23 @@ class Form extends Component {
         return {
             name: !name || !this.validateName(name)
                 ? true
+                : false,
+            email: !email || !this.validateEmail(email)
+                ? true
                 : false
         }
     }
 
     // To check for the presence of both first name and the last name
-     validateName = (name) => {
-    name = name
-      .trim()
-      .split(" ");
-    return name.length > 1;
-  }
+    validateName = (name) => {
+        name = name
+            .trim()
+            .split(" ");
+        return name.length > 1;
+    }
+
+    // Email validation
+    validateEmail = (email) => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 
     render() {
         return (
@@ -78,7 +84,10 @@ class Form extends Component {
                                 First name and last name required</div>
                         : null}
                 </div>
-                <div className="form-group">
+                <div
+                    className={`form-group ${ !this.state.error.email
+                    ? null
+                    : 'has-danger'}`}>
                     <label htmlFor="email">Email</label>
                     <input
                         type="text"
@@ -88,7 +97,11 @@ class Form extends Component {
                         value={this.state.email}
                         onChange=
                         {(e) =>this.onChange(e)}
-                        placeholder="Email"/></div>
+                        placeholder="Email"/> {this.state.error.email
+                        ? <div className="form-control-feedback">
+                                Valid email required</div>
+                        : null}
+                </div>
 
                 <button type="submit" className="btn btn-primary">Create Account</button>
             </form>
