@@ -1,7 +1,7 @@
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css");
 
-.container > form {
-  padding-top: 20px;
+.login {
+   padding-top: 30px; 
 }
 
 .error-msg {
@@ -11,4 +11,8 @@
 
 label {
   font-size:13px;
+}
+
+.round-btn{
+  border-radius: 1.25rem;
 }

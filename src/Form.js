@@ -94,9 +94,10 @@ class Form extends Component {
     }
     render() {
         return (
-            <div className="row justify-content-center">
-                
+            <div className="login row justify-content-center">
                 <form className="col-4" onSubmit={this.onSubmit}>
+                        <p><strong>Create an Account</strong></p>
+                        <hr/>
                     <div
                         className={`form-group ${ !this.state.error.name
                         ? null
@@ -147,7 +148,7 @@ class Form extends Component {
                             placeholder="MM/DD/YYYY"
                             onChange={(e) => this.onChange(e)}/> {this.state.error.bday
                             ? <div className="form-control-feedback d-block bg-danger rounded error-msg">
-                                    Invalid date ,input as MM/DD/YYYY</div>
+                                    Invalid date, input as MM/DD/YYYY</div>
                             : null}
                     </div>
                     <div
@@ -166,7 +167,7 @@ class Form extends Component {
                                     Password should be atleast 6 characters</div>
                             : null}
                     </div>
-                    <button type="submit" className="btn btn-primary">Create Account</button>
+                    <button type="submit" className="btn btn-primary btn-block round-btn">Create Account</button>
                 </form>
             </div>
         )
