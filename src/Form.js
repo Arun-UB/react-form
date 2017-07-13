@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import * as moment from 'moment';
 
 class Form extends Component {
 
@@ -14,7 +15,8 @@ class Form extends Component {
 
         this.state = {
             name: '',
-            email: ''
+            email: '',
+            bday: ''
         }
 
         // Create error states for all the input fields
@@ -41,14 +43,15 @@ class Form extends Component {
 
     // Form Validation
     validate = (values) => {
-        const {name, email} = values;
+        const {name, email,bday} = values;
         return {
             name: !name || !this.validateName(name)
                 ? true
                 : false,
             email: !email || !this.validateEmail(email)
                 ? true
-                : false
+                : false,
+            bday: !this.validateDate(bday),
         }
     }
 
@@ -62,6 +65,11 @@ class Form extends Component {
 
     // Email validation
     validateEmail = (email) => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+
+    // Date validation using moment.js library
+    validateDate = (date) => {
+    return moment(date, 'MM/DD/YYYY').isValid();
+  }
 
     render() {
         return (
@@ -100,6 +108,23 @@ class Form extends Component {
                         placeholder="Email"/> {this.state.error.email
                         ? <div className="form-control-feedback">
                                 Valid email required</div>
+                        : null}
+                </div>
+                <div
+                    className={`form-group ${ !this.state.error.bday
+                    ? null
+                    : 'has-danger'}`}>
+                    <label htmlFor="bday">Birthday</label>
+                    <input
+                        className="form-control"
+                        type="text"
+                        name="bday"
+                        value={this.state.bday}
+                        id="bday"
+                        placeholder="MM/DD/YYYY"
+                        onChange={(e) => this.onChange(e)}/> {this.state.error.bday
+                        ? <div className="form-control-feedback">
+                                Invalid date format,input as MM/DD/YYYY</div>
                         : null}
                 </div>
 
