@@ -16,7 +16,8 @@ class Form extends Component {
         this.state = {
             name: '',
             email: '',
-            bday: ''
+            bday: '',
+            password: ''
         }
 
         // Create error states for all the input fields
@@ -43,7 +44,7 @@ class Form extends Component {
 
     // Form Validation
     validate = (values) => {
-        const {name, email,bday} = values;
+        const {name, email, bday, password} = values;
         return {
             name: !name || !this.validateName(name)
                 ? true
@@ -51,7 +52,8 @@ class Form extends Component {
             email: !email || !this.validateEmail(email)
                 ? true
                 : false,
-            bday: !this.validateDate(bday),
+            bday: !bday || !this.validateDate(bday),
+            password: !password || !this.validatePassword(password)
         }
     }
 
@@ -68,9 +70,17 @@ class Form extends Component {
 
     // Date validation using moment.js library
     validateDate = (date) => {
-    return moment(date, 'MM/DD/YYYY').isValid();
-  }
+        return moment(date, 'MM/DD/YYYY').isValid();
+    }
 
+    // Password validation
+    validatePassword = (password) => {
+        const requiredPassWordLength = 6;
+        return password
+            .trim()
+            .split("")
+            .length >= requiredPassWordLength;
+    }
     render() {
         return (
             <form onSubmit={this.onSubmit}>
@@ -127,7 +137,22 @@ class Form extends Component {
                                 Invalid date format,input as MM/DD/YYYY</div>
                         : null}
                 </div>
-
+                <div
+                    className={`form-group ${ !this.state.error.password
+                    ? null
+                    : 'has-danger'}`}>
+                    <label htmlFor="password">Password</label>
+                    <input
+                        className="form-control"
+                        type="password"
+                        value={this.state.password}
+                        name="password"
+                        id="password"
+                        onChange={(e) => this.onChange(e)}/> {this.state.error.password
+                        ? <div className="form-control-feedback">
+                                Password should be atleast 6 characters</div>
+                        : null}
+                </div>
                 <button type="submit" className="btn btn-primary">Create Account</button>
             </form>
         )
