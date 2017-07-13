@@ -1,7 +1,14 @@
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css");
 
 .container > form {
-  width:500px;
   padding-top: 20px;
-  margin: 0 auto;
+}
+
+.error-msg {
+  color: white !important;
+  padding: 10px;
+}
+
+label {
+  font-size:13px;
 }
