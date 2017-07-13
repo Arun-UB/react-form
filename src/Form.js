@@ -5,31 +5,57 @@ class Form extends Component {
     constructor(props) {
         super();
 
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this
+            .onSubmit
+            .bind(this);
+        this.onChange = this
+            .onChange
+            .bind(this);
 
         this.state = {
-            name:'',
-            email:''
+            name: '',
+            email: ''
+        }
+
+        // Create error states for all the input fields
+        this.state.error = {
+            ...this.state
         }
     }
 
     //Submit handler for the form
     onSubmit = (e) => {
         e.preventDefault();
+        this.setState({
+            error: this.validate(this.state)
+        })
+        console.log(this.state);
     }
 
     //OnChange handler for the form
     onChange = (e) => {
         this.setState({
-        [e.target.name] :e.target.value
+            [e.target.name]: e.target.value
         })
     }
-    
+
+    // Form Validation
+    validate = (values) => {
+        const {name, email} = values;
+        return {
+            name: !name
+                ? true
+                : false
+        }
+    }
+
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                <div className="form-group">
+                <div
+                    className={`form-group ${ !this.state.error.name
+                    ? null
+                    : 'has-danger'}`}>
                     <label htmlFor="name">Name</label>
                     <input
                         type="text"
@@ -37,9 +63,13 @@ class Form extends Component {
                         id="name"
                         name="name"
                         value={this.state.name}
-                        required
-                        onChange = {(e) =>this.onChange(e)}
-                        placeholder="First Last"/></div>
+                        onChange=
+                        {(e) =>this.onChange(e)}
+                        placeholder="First Last"/> {this.state.error.name
+                        ? <div className="form-control-feedback">
+                                First name and last name required</div>
+                        : null}
+                </div>
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
@@ -47,9 +77,11 @@ class Form extends Component {
                         className="form-control"
                         id="email"
                         name="email"
-                        required
+                        value={this.state.email}
+                        onChange=
+                        {(e) =>this.onChange(e)}
                         placeholder="Email"/></div>
-                    
+
                 <button type="submit" className="btn btn-primary">Create Account</button>
             </form>
         )
