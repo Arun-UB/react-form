@@ -28,11 +28,27 @@ class Form extends Component {
 
     //Submit handler for the form
     onSubmit = (e) => {
+        
         e.preventDefault();
+        
+        // Call the validation function
         this.setState({
             error: this.validate(this.state)
         })
-        console.log(this.state);
+
+        const error = Object
+            .values(this.state.error)
+            .every((v) => v===''||v);
+
+
+        // Display results
+        if (!error) {
+            console.log(`
+        Name:${this.state.name},
+        Email:${this.state.email},
+        Birthday:${this.state.bday},
+        Password:${this.state.password}`);
+        }
     }
 
     //OnChange handler for the form
@@ -46,12 +62,8 @@ class Form extends Component {
     validate = (values) => {
         const {name, email, bday, password} = values;
         return {
-            name: !name || !this.validateName(name)
-                ? true
-                : false,
-            email: !email || !this.validateEmail(email)
-                ? true
-                : false,
+            name: !name || !this.validateName(name),
+            email: !email || !this.validateEmail(email),
             bday: !bday || !this.validateDate(bday),
             password: !password || !this.validatePassword(password)
         }
@@ -134,7 +146,7 @@ class Form extends Component {
                         placeholder="MM/DD/YYYY"
                         onChange={(e) => this.onChange(e)}/> {this.state.error.bday
                         ? <div className="form-control-feedback">
-                                Invalid date format,input as MM/DD/YYYY</div>
+                                Invalid date ,input as MM/DD/YYYY</div>
                         : null}
                 </div>
                 <div
